@@ -11,7 +11,6 @@ import javafx.util.Duration;
 public class Bird extends ImageView {
 
 	private double lastX, lastY;
-	private double vx, vy;
 	private Timeline flipline;
 
 	
@@ -68,11 +67,9 @@ public class Bird extends ImageView {
 		flipline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,new KeyValue(this.translateYProperty(), 0)),
         		new KeyFrame(new Duration(2000),new KeyValue(this.translateYProperty(), 200)),
         		new KeyFrame(new Duration(4000),new KeyValue(this.translateYProperty(), 400)));
-        vy += 0.5;
 	}
 	
-	public void jump(){
-		vy = -8;		
+	public void jump(){		
 		flipline.jumpTo(flipline.getCurrentTime().subtract(Duration.seconds(0.6)));
 	}
 	
