@@ -10,7 +10,6 @@ import javafx.util.Duration;
 public class PipeBox extends VBox {
 
 	private Timeline obstacleline;
-	//private TranslateTransition pipeTransition;
 	private ImageView head;
 	private ImageView body;
 	
@@ -28,7 +27,6 @@ public class PipeBox extends VBox {
 		this.getChildren().addAll(head, body);
 		
 		obstacleline = new Timeline();
-		//obstacleline.setCycleCount(Timeline.INDEFINITE);
 		obstacleline.setCycleCount(1);
 	}
     public void play() {
@@ -44,23 +42,8 @@ public class PipeBox extends VBox {
     }
 	
 	public void runing(){
-        //pipeTransition = new TranslateTransition(Duration.seconds(4), pipe);
-        //pipeTransition.setFromX(20);
-        //pipeTransition.setToX(220);
-        //pipeTransition.setCycleCount(Timeline.INDEFINITE);
-        //pipeTransition.setAutoReverse(true);
-		
 		obstacleline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO, new KeyValue(this.translateXProperty(), 400+78)),
-//				new KeyFrame(Duration.ZERO,
-//		                  event -> {
-//		                	  FlippyBirdPanel.pipeList.add(this);
-//		                  }),
-        		new KeyFrame(new Duration(4000), new KeyValue(this.translateXProperty(), -78))
-//        		,new KeyFrame(new Duration(4000),
-//		                  event -> {
-//		                	  FlippyBirdPanel.pipeList.remove(this);
-//		                  })
-        		);
+        		new KeyFrame(new Duration(4000), new KeyValue(this.translateXProperty(), -78)));
 	}
 	
 	public double getContentHeight(){
