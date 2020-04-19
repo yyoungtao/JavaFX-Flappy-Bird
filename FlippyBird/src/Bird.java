@@ -12,7 +12,6 @@ public class Bird extends ImageView {
 
 	private double lastX, lastY;
 	private double vx, vy;
-	//private TranslateTransition translateTransition;
 	private Timeline flipline;
 
 	
@@ -20,17 +19,16 @@ public class Bird extends ImageView {
 		super();
 		this.setImage(img);
 		this.setSmooth(true);
-		//translateTransition = new TranslateTransition(Duration.seconds(4), this);
 		
 		flipline = new Timeline();
 		flipline.setCycleCount(Timeline.INDEFINITE);
-		
+		//cheat****************************
 		setOnMousePressed((MouseEvent event) -> {
             lastX = event.getX();
             lastY = event.getY();
             toFront();
-            //  postView.toFront();
         });
+		
         setOnMouseDragged((MouseEvent event) -> {
             double layoutX = getLayoutX() + (event.getX() - lastX);
             double layoutY = getLayoutY() + (event.getY() - lastY);
@@ -47,11 +45,10 @@ public class Bird extends ImageView {
                 setLayoutX(0);
             }
         });
-        
+        //cheat**************************
 	}
 	
     public void play() {
-       //translateTransition.play();
     	flipline.play();
     }
     
@@ -68,29 +65,14 @@ public class Bird extends ImageView {
     }
 	
 	public void gravity(){
-		//this.get
-		//setLayoutX(getLayoutX() + vx);
-		//setLayoutY(getLayoutY() + vy);
-		//vy += 0.5;
-
-        //translateTransition.setFromY(getLayoutY());
-        //translateTransition.setToY(300);
-        //translateTransition.setRate(0.5);
-        //translateTransition.setCycleCount(Timeline.INDEFINITE);
-        //System.out.println(translateTransition.getCuePoints());
 		flipline.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,new KeyValue(this.translateYProperty(), 0)),
         		new KeyFrame(new Duration(2000),new KeyValue(this.translateYProperty(), 200)),
         		new KeyFrame(new Duration(4000),new KeyValue(this.translateYProperty(), 400)));
-		
         vy += 0.5;
 	}
 	
 	public void jump(){
-		vy = -8;
-		//translateTransition.setRate(-8);
-		//translateTransition.getCurrentTime()-0.5
-		//translateTransition.jumpTo(translateTransition.getCurrentTime().subtract(Duration.seconds(0.5)));
-		
+		vy = -8;		
 		flipline.jumpTo(flipline.getCurrentTime().subtract(Duration.seconds(0.6)));
 	}
 	
