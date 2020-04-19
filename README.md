@@ -8,4 +8,4 @@ The components used are Timeline and AnimationTimer.
 
 The project is created with Eclipse (Version: Mars.2 Release (4.5.2), Build id: 20160218-0600) and JDK (1.8.0_201).
 
-images in Asset comes from repo:https://github.com/Code-Bullet/Flappy-Bird-AI and https://github.com/john525/Flappy-Bird-Clone.
+Images in assets comes from repo:https://github.com/Code-Bullet/Flappy-Bird-AI and https://github.com/john525/Flappy-Bird-Clone.
