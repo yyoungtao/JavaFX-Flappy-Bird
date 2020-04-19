@@ -33,7 +33,6 @@ public class FlippyBirdPanel extends Application {
 	public static List<PipeBox> pipeList;
 	
 	private Timeline pipeline;
-	//private Timeline check;
 	private AnimationTimer  check_timer;
 	
 	private Stage stage;
@@ -64,27 +63,20 @@ public class FlippyBirdPanel extends Application {
    
    @Override
    public void stop() {
-	   //check.stop();
-	   check_timer.stop();
+       check_timer.stop();
        pipeline.stop();
    }
 
 	public Scene createContent() {
 		pipeline = new Timeline();
 		pipeline.setCycleCount(Timeline.INDEFINITE);
-		//check = new Timeline();
-		//check.setCycleCount(Timeline.INDEFINITE);
-	    
 	    pipeList = new ArrayList<PipeBox>();
-	    
-    	//final Stage stage = new Stage();
+
     	Image bird_png = new Image(FlippyBirdPanel.class.getResource("/assets/bird.png").toExternalForm());
 
     	Bird bird = new Bird(bird_png);
     	bird.setLayoutX(screen_width/2);
-    	//bird.setLayoutY(screen_height/2);
-
-    	//pipe.setLayoutX(screen_width+20);
+		
         //create root node of scene, i.e. group
         Group rootGroup = new Group();
 
@@ -101,28 +93,11 @@ public class FlippyBirdPanel extends Application {
         rootGroup.getChildren().add(text);
         bird.gravity();
 
-
         rootGroup.getChildren().add(bird);
-        
+        //add pipe animation
         pipeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(1.5),
                   event -> {
-                  	//Image pipe_png = new Image(FlippyBirdPanel.class.getResource("/assets/pipeBody.png").toExternalForm());
-                  	
-                  	//int height = new Random().nextInt((max_pipe_height - min_pipe_height) + 1) + min_pipe_height;
-                  	//int residual_height = screen_height-gap-height;
-                  	
-//                 	Pipe pipe_bottom = new Pipe(pipe_png);
-//                 	pipe_bottom.setFitHeight(height);
-//                 	Pipe pipe_up = new Pipe(pipe_png);
-//                 	pipe_up.setFitHeight(residual_height);
-//                 	pipe_up.setRotate(180);
-//                 	pipe_up.runing();
-//                 	pipe_up.play();
-//                 	pipe_bottom.setLayoutY(screen_height-pipe_bottom.getFitHeight());
-//                 	pipe_bottom.runing();
-//                 	pipe_bottom.play();
-                	
                   	PipeBox[] pipes = create_pipe();  
                  	//up pipe
                  	pipes[0].setRotate(180);
@@ -137,60 +112,17 @@ public class FlippyBirdPanel extends Application {
                  	
                  	pipeList.add(pipes[0]);
                  	pipeList.add(pipes[1]);
-
-					rootGroup.getChildren().add(pipes[0]);
-					rootGroup.getChildren().add(pipes[1]);
-
+			rootGroup.getChildren().add(pipes[0]);
+			rootGroup.getChildren().add(pipes[1]);
 				}));
-
-//        check.getKeyFrames().add(
-//                new KeyFrame(Duration.seconds(0.2),
-//                        event -> {
-//                        	ArrayList<PipeBox> toRemove = new ArrayList<PipeBox>();
-//                        	//System.out.println("bird:"+bird.getLayoutX()+" "+ bird.getLayoutY());
-//                        	//System.out.println("bird:"+bird.getBoundsInParent().getMaxX()+" "+ bird.getBoundsInParent().getMaxY());
-//        		        	for (PipeBox temp : pipeList) {
-//        		        		//System.out.println("pipe:"+temp.getBoundsInParent().getMaxX()+" "+ temp.getBoundsInParent().getMaxY());
-//        		                if(check_collision(temp, bird)){
-//        		                	//createAlert();
-//        		                	System.out.println("collision");
-//        		                	//temp.getBoundsInParent()
-//        		                	//System.out.println("pipe:"+temp.getLayoutX()+" "+ temp.getLayoutY());
-//        		                	failed = true;
-//        		                	//pipeline.stop();
-//        		                }
-//        		                if(temp.getLayoutX()<0){
-//        		                	toRemove.add(temp);
-//        		                }
-//        		            }
-//                    	    pipeList.removeAll(toRemove);
-//                    	    
-//                            if(failed){
-//                            	check.stop();
-//                            	pipeline.stop();
-//                            	bird.pause();
-//                            	for (PipeBox temp : pipeList) {
-//                            		temp.stop();
-//                            	}
-//                            	pipeList.clear();
-//                            	createAlert();
-//                            }
-//      				}));
-        
+	//check collision	
         check_timer = new AnimationTimer() {
             public void handle(long now) {
             	ArrayList<PipeBox> toRemove = new ArrayList<PipeBox>();
-            	//System.out.println("bird:"+bird.getLayoutX()+" "+ bird.getLayoutY());
-            	//System.out.println("bird:"+bird.getBoundsInParent().getMaxX()+" "+ bird.getBoundsInParent().getMaxY());
+
 	        	for (PipeBox temp : pipeList) {
-	        		//System.out.println("pipe:"+temp.getBoundsInParent().getMaxX()+" "+ temp.getBoundsInParent().getMaxY());
 	                if(check_collision(temp, bird)){
-	                	//createAlert();
-	                	System.out.println("collision");
-	                	//temp.getBoundsInParent()
-	                	//System.out.println("pipe:"+temp.getLayoutX()+" "+ temp.getLayoutY());
 	                	failed = true;
-	                	//pipeline.stop();
 	                }
 	                if(temp.getLayoutX()<0){
 	                	toRemove.add(temp);
@@ -214,14 +146,12 @@ public class FlippyBirdPanel extends Application {
         bird.reset();
         bird.pause();
         pipeline.pause();
-        //check.pause();
         check_timer.stop();
-        
+        //restart game and bounce the bird
         scene.setOnKeyPressed((KeyEvent ke) -> {
         	if(ke.getCode()==KeyCode.ENTER) {
         		if(pause){
-        			//check.play();
-        			check_timer.start();
+        		check_timer.start();
                 	pipeline.play();
                 	bird.play();
                 	bird.reset();
@@ -233,27 +163,22 @@ public class FlippyBirdPanel extends Application {
                 		rootGroup.getChildren().remove(temp);
                 	}
                 	pipeList.clear();
-                	//check.play();
                 	check_timer.start();
                 	pipeline.play();
                 	bird.play();
                 	bird.reset();
                 	failed = false;
                 }
-
-                
             }
         	if(ke.getCode()==KeyCode.SPACE) {
                 bird.jump();
             }
         });
-        
     	return scene;
     }
-	
-	
-	
-	
+        /*
+	*create two pipes 
+	*/
 	public PipeBox[] create_pipe(){
 		PipeBox[] pipes = new PipeBox[2];
 		Image pipe_head = new Image(FlippyBirdPanel.class.getResource("/assets/pipeHead.png").toExternalForm());
@@ -267,7 +192,9 @@ public class FlippyBirdPanel extends Application {
       	
       	return pipes;
 	}
-	
+	/*
+	*show alert panel
+	*/
 	protected Alert createAlert() {
         Alert alert = new Alert(AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -276,20 +203,13 @@ public class FlippyBirdPanel extends Application {
         alert.show();
         return alert;
     }
-	
+	/*
+	*check if the bird collide with pipe
+	*/
 	public boolean check_collision(PipeBox temp, Bird bird){
-		
-		//temp.getBoundsInParent().intersects(bird.getBoundsInParent().getMinX(), bird.getBoundsInParent().getMinY(), bird.getBoundsInParent().getWidth(), bird.getBoundsInParent().getHeight())
 		if(temp.getBoundsInParent().intersects(bird.getBoundsInParent())){
 			return true;
 		}
-		
-//		if(temp.getBoundsInParent().contains(new Point2D(bird.getBoundsInParent().getMaxX(),bird.getBoundsInParent().getMaxY()))
-//				||temp.getBoundsInParent().contains(new Point2D(bird.getBoundsInParent().getMinX(),bird.getBoundsInParent().getMinY()))
-//				||temp.getBoundsInParent().contains(new Point2D(bird.getBoundsInParent().getMinX()+bird.getBoundsInParent().getWidth(),bird.getBoundsInParent().getMinY()))
-//				||temp.getBoundsInParent().contains(new Point2D(bird.getBoundsInParent().getMinX(),bird.getBoundsInParent().getMinY()+bird.getBoundsInParent().getHeight()))){
-//			return true;
-//		}
 		return false;
 	}
 
