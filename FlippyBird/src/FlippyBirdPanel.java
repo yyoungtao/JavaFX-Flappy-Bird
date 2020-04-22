@@ -84,10 +84,10 @@ public class FlippyBirdPanel extends Application {
         Scene scene = new Scene(rootGroup, screen_width, screen_height, Color.WHITESMOKE);
 
         //add some node to scene
-        Text text = new Text(20, 110, "Flappy Bird");
+        Text text = new Text(20, 110, "Flappy Bird. Press Enter to start, \n press space to jump");
         text.setFill(Color.DODGERBLUE);
         text.setEffect(new Lighting());
-        text.setFont(Font.font(Font.getDefault().getFamily(), 50));
+        text.setFont(Font.font(Font.getDefault().getFamily(), 20));
 
         //add text to the main root group
         rootGroup.getChildren().add(text);
